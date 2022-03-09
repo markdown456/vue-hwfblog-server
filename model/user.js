@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         state: {
             type: Number,
             default: 0
+        },
+        token: {
+            type: String,
+            required: true
         }
     })
     // 创建集合

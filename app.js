@@ -13,6 +13,7 @@ app.use(bodyParser.json())
 require('./model/connect')
     //创建用户，创建完成后注释掉
     // require('./model/user')
+    // require('./model/article')
 
 //引入相应路由
 // const home = require('./route/home');
@@ -22,5 +23,5 @@ const admin = require('./route/admin');
 // app.use('/home', home);
 app.use('/admin', admin);
 
-app.listen(8081);
+app.listen(8080);
 console.log('服务器启动成功');
