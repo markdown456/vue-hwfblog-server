@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 //创建集合规则
-const articleSchema = new mongoose.Schema({
+const noteSchema = new mongoose.Schema({
     id: {
         type: Number,
         unique: true,
@@ -27,16 +27,16 @@ const articleSchema = new mongoose.Schema({
 })
 
 // 创建集合
-const Article = mongoose.model('Article', articleSchema);
+const Note = mongoose.model('Note', noteSchema);
 
-// Article.create({
-//     id: 3,
-//     type: 'art',
-//     imgUrl: 'https://cdn.pigjian.com/cover/2017/06/01/0Ylt1fzjveWnKI2nmXZw3GtK1uOeQsVKZBuJgX0Y.png',
-//     title: '第四篇文章',
-//     date: '2022-04-30',
+// Note.create({
+//     id: 1,
+//     type: 'note',
+//     imgUrl: 'http://localhost/second',
+//     title: '第二篇笔记',
+//     date: '2022-03-27',
 //     content: `
-//              的关键字（例如：红杏出墙~）
+//              var：ES5中用于声明变量的关键字，存在各种问题（例如：红杏出墙~）
 //              如果你的代码里还存在 var，那你的良心就大大的坏了！`,
 // }).then(() => {
 //     console.log('文章或笔记创建成功');
@@ -44,4 +44,4 @@ const Article = mongoose.model('Article', articleSchema);
 //     console.log('文章创建或笔记失败', err)
 // })
 
-module.exports = { Article };
+module.exports = { Note };

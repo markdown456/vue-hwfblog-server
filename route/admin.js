@@ -2,6 +2,7 @@
 const express = require('express');
 const { User } = require('../model/user');
 const { Article } = require('../model/article')
+const { Note } = require('../model/note')
 const bcrypt = require('bcryptjs')
     //导入jwt
 const jwt = require('jsonwebtoken');
@@ -152,6 +153,28 @@ admin.get('/articleList', (req, res) => {
 //获取点击文章的细节
 admin.get('/articleDetail/:id', (req, res) => {
     Article.findOne({ id: req.params.id }, (err, docs) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        res.send(docs)
+    })
+})
+
+//获取所有笔记请求
+admin.get('/noteList', (req, res) => {
+    console.log(req.body)
+    Note.find({}, (err, docs) => {
+        if (err) {
+            console.log(err)
+            return
+        }
+        res.json(docs)
+    })
+})
+
+admin.get('/noteDetail/:id', (req, res) => {
+    Note.findOne({ id: req.params.id }, (err, docs) => {
         if (err) {
             console.error(err)
             return

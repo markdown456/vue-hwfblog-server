@@ -9,11 +9,19 @@ app.use(session({ secret: 'secret-key' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+//将public中的静态文件开放
+app.use(express.static('public'));
+
+// app.all('*', function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*')
+// })
+
 //导入数据库连接
 require('./model/connect')
     //创建用户，创建完成后注释掉
     // require('./model/user')
     // require('./model/article')
+    // require('./model/note')
 
 //引入相应路由
 // const home = require('./route/home');
