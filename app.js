@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //将public中的静态文件开放
-app.use(express.static('public'));
+app.use(express.static('./dist'));
 
 // app.all('*', function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', '*')
@@ -31,5 +31,5 @@ const admin = require('./route/admin');
 // app.use('/home', home);
 app.use('/admin', admin);
 
-app.listen(8080);
-console.log('服务器启动成功');
+app.listen(80);
+console.log('服务器启动成功,server running at http://127.0.0.1');

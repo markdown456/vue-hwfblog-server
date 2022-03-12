@@ -43,7 +43,7 @@ admin.post('/register', async(req, res) => {
             })
         }
         createUser();
-        res.send({ message: '恭喜你，注册成功' })
+        res.send({ status: 200, message: '恭喜你，注册成功' })
         console.log(User);
     }
 
