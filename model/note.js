@@ -30,10 +30,10 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema);
 
 // Note.create({
-//     id: 1,
+//     id: 3,
 //     type: 'note',
-//     imgUrl: 'http://localhost/second',
-//     title: '第二篇笔记',
+//     imgUrl: '1111',
+//     title: '第4篇笔记',
 //     date: '2022-03-27',
 //     content: `
 //              var：ES5中用于声明变量的关键字，存在各种问题（例如：红杏出墙~）

@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 //创建集合规则
 const articleSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        unique: true,
-    },
     type: { type: String },
     imgUrl: {
         type: String
@@ -33,7 +29,7 @@ const Article = mongoose.model('Article', articleSchema);
 //     id: 3,
 //     type: 'art',
 //     imgUrl: 'https://cdn.pigjian.com/cover/2017/06/01/0Ylt1fzjveWnKI2nmXZw3GtK1uOeQsVKZBuJgX0Y.png',
-//     title: '第四篇文章',
+//     title: '第4篇文章',
 //     date: '2022-04-30',
 //     content: `
 //              的关键字（例如：红杏出墙~）

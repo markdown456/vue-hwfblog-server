@@ -33,7 +33,7 @@ admin.post('/register', async(req, res) => {
                 username: username,
                 email: email,
                 password: bpassword,
-                role: 'admin',
+                role: 'normal',
                 state: 0,
                 token: '0',
             }).then(() => {
@@ -92,7 +92,8 @@ admin.post('/login', async(req, res) => {
                             res.status(500).send()
                             return
                         }
-                        res.send({ 'status': 1, 'msg': '登陆成功', 'token': token, 'email': email }) //反给前台
+                        //返回role值，判断是否为管理员admin
+                        res.send({ 'status': 1, 'msg': '登陆成功', 'token': token, 'email': email, 'role': user.role }) //反给前台
                     })
                 } else {
                     res.send({ 'status': 0, 'msg': '登录失败' });
@@ -138,9 +139,9 @@ admin.post('/notes', (req, res) => {
     })
 })
 
-//获取所有文章请求
+//获取所有文章和笔记请求
+//将所有文章响应给前端，在前端过滤文章或笔记
 admin.get('/articleList', (req, res) => {
-    console.log(req.body)
     Article.find({}, (err, docs) => {
         if (err) {
             console.log(err)
@@ -150,9 +151,9 @@ admin.get('/articleList', (req, res) => {
     })
 })
 
-//获取点击文章的细节
+//获取点击文章或笔记的细节，文章和笔记都有唯一标识_id
 admin.get('/articleDetail/:id', (req, res) => {
-    Article.findOne({ id: req.params.id }, (err, docs) => {
+    Article.findOne({ _id: req.params.id }, (err, docs) => {
         if (err) {
             console.error(err)
             return
@@ -161,26 +162,107 @@ admin.get('/articleDetail/:id', (req, res) => {
     })
 })
 
-//获取所有笔记请求
-admin.get('/noteList', (req, res) => {
-    console.log(req.body)
-    Note.find({}, (err, docs) => {
+// //获取所有笔记请求
+// admin.get('/noteList', (req, res) => {
+//     Note.find({}, (err, docs) => {
+//         if (err) {
+//             console.log(err)
+//             return
+//         }
+//         res.json(docs)
+
+//     })
+// })
+
+// admin.get('/noteDetail/:id', (req, res) => {
+//     Note.findOne({ _id: req.params.id }, (err, docs) => {
+//         if (err) {
+//             console.error(err)
+//             return
+//         }
+//         res.send(docs)
+//     })
+// })
+
+
+//后台管理请求服务
+//获取所有文章
+admin.get('/allarticle', (req, res) => {
+    console.log(req.body);
+    Article.find({}, (err, docs) => {
         if (err) {
             console.log(err)
             return
         }
         res.json(docs)
     })
+
 })
 
-admin.get('/noteDetail/:id', (req, res) => {
-    Note.findOne({ id: req.params.id }, (err, docs) => {
+//添加或修改文章，根据是否存在_id值判断是添加或修改文章
+admin.post('/addArticle', (req, res) => {
+    if (req.body._id) {
+        //若有_id值则为更新数据
+        Article.findByIdAndUpdate({ _id: req.body._id }, {
+            //更新该条数据
+            title: req.body.title,
+            imgUrl: req.body.imgUrl,
+            type: req.body.type,
+            date: req.body.date,
+            content: req.body.content,
+            label: req.body.label
+        }, (err, docs) => {
+            if (err) {
+                console.log('修改文章失败');
+                console.log(err);
+                res.send({ status: 400, msg: '文章修改失败' })
+                return;
+            }
+            //修改文章
+            console.log('修改文章成功');
+            res.send({ status: 200, msg: '文章修改成功' })
+        })
+    } else {
+        //若没有_id则为添加数据
+        Article.create(req.body).then(() => {
+            //添加文章
+            console.log('添加文章成功');
+            res.send({ status: 200, msg: '文章添加成功' })
+        }).catch((err) => {
+            console.log('添加文章失败');
+            console.log(err);
+            res.send({ status: 400, msg: '文章添加失败' })
+
+        })
+    }
+
+})
+
+//编辑文章
+// admin.get('/editArticle/:id', (req, res) => {
+//     Article.findOne({ id: req.params.id }, (err, docs) => {
+//         if (err) {
+//             console.error(err)
+//             return
+//         }
+//         res.send(docs)
+//     })
+// })
+
+//删除文章
+admin.get('/deleteArticle/:id', (req, res) => {
+    console.log(typeof(req.params.id));
+    console.log(req.params.id);
+    Article.deleteOne({ _id: req.params.id }, (err, docs) => {
         if (err) {
             console.error(err)
+            res.send({ status: 400, msg: '未成功删除该文章' })
             return
         }
-        res.send(docs)
+        res.send({ status: 200, msg: '已成功删除该文章' })
     })
 })
+
+
 
 module.exports = admin;
