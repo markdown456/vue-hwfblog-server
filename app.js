@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const session = require('express-session')
 const app = express();
 
+app.use(bodyParser.json({limit:'50mb'}));
+app.use(bodyParser.urlencoded({limit:'50mb',extended:true}));
+
 app.use(session({ secret: 'secret-key' }))
 
 //处理post请求参数
@@ -31,5 +34,5 @@ const admin = require('./route/admin');
 // app.use('/home', home);
 app.use('/admin', admin);
 
-app.listen(80);
+app.listen(3000);
 console.log('服务器启动成功');

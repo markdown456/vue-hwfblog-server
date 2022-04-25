@@ -226,6 +226,8 @@ admin.post('/addArticle', (req, res) => {
         //若没有_id则为添加数据
         Article.create(req.body).then(() => {
             //添加文章
+            //将获取的日期转换为毫秒数
+            // req.body.date = +new Date(req.body.date) - 0;
             console.log('添加文章成功');
             res.send({ status: 200, msg: '文章添加成功' })
         }).catch((err) => {
